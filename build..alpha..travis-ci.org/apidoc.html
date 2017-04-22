@@ -1,0 +1,502 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/brianc/node-pg-native"
+
+    >pg-native (v1.10.1)</a>
+</h1>
+<h4>A slightly nicer interface to Postgres over node-libpq</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.pg-native">module pg-native</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.pg-native.pg-native">
+            function <span class="apidocSignatureSpan"></span>pg-native
+            <span class="apidocSignatureSpan">(config)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.pg-native.copy_stream">
+            function <span class="apidocSignatureSpan">pg-native.</span>copy_stream
+            <span class="apidocSignatureSpan">(pq, options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.pg-native.super_">
+            function <span class="apidocSignatureSpan">pg-native.</span>super_
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">pg-native.</span>copy_stream.prototype</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">string <span class="apidocSignatureSpan">pg-native.</span>version</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.pg-native.copy_stream">module pg-native.copy_stream</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.pg-native.copy_stream.copy_stream">
+            function <span class="apidocSignatureSpan">pg-native.</span>copy_stream
+            <span class="apidocSignatureSpan">(pq, options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.pg-native.copy_stream.super_">
+            function <span class="apidocSignatureSpan">pg-native.copy_stream.</span>super_
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.pg-native.copy_stream.prototype">module pg-native.copy_stream.prototype</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.pg-native.copy_stream.prototype._consumeBuffer">
+            function <span class="apidocSignatureSpan">pg-native.copy_stream.prototype.</span>_consumeBuffer
+            <span class="apidocSignatureSpan">(cb)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.pg-native.copy_stream.prototype._read">
+            function <span class="apidocSignatureSpan">pg-native.copy_stream.prototype.</span>_read
+            <span class="apidocSignatureSpan">(size)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.pg-native.copy_stream.prototype._write">
+            function <span class="apidocSignatureSpan">pg-native.copy_stream.prototype.</span>_write
+            <span class="apidocSignatureSpan">(chunk, encoding, cb)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.pg-native.copy_stream.prototype.end">
+            function <span class="apidocSignatureSpan">pg-native.copy_stream.prototype.</span>end
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.pg-native" id="apidoc.module.pg-native">module pg-native</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.pg-native.pg-native" id="apidoc.element.pg-native.pg-native">
+        function <span class="apidocSignatureSpan"></span>pg-native
+        <span class="apidocSignatureSpan">(config)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">pg-native = function (config) {
+  if(!(this instanceof Client)) {
+    return new Client(config);
+  }
+
+  config = config || {};
+
+  EventEmitter.call(this);
+  this.pq = new Libpq();
+  this._reading = false;
+  this._read = this._read.bind(this);
+
+  //allow custom type converstion to be passed in
+  this._types = config.types || types;
+
+  //allow config to specify returning results
+  //as an array of values instead of a hash
+  this.arrayMode = config.arrayMode || false;
+  var self = this;
+
+  //lazy start the reader if notifications are listened for
+  //this way if you only run sync queries you wont block
+  //the event loop artificially
+  this.on(&#x27;newListener&#x27;, function(event) {
+    if(event != &#x27;notification&#x27;) return;
+    self._startReading();
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.pg-native.copy_stream" id="apidoc.element.pg-native.copy_stream">
+        function <span class="apidocSignatureSpan">pg-native.</span>copy_stream
+        <span class="apidocSignatureSpan">(pq, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">copy_stream = function (pq, options) {
+  Duplex.call(this, options);
+  this.pq = pq;
+  this._reading = false;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.pg-native.super_" id="apidoc.element.pg-native.super_">
+        function <span class="apidocSignatureSpan">pg-native.</span>super_
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function EventEmitter() {
+  EventEmitter.init.call(this);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.pg-native.copy_stream" id="apidoc.module.pg-native.copy_stream">module pg-native.copy_stream</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.pg-native.copy_stream.copy_stream" id="apidoc.element.pg-native.copy_stream.copy_stream">
+        function <span class="apidocSignatureSpan">pg-native.</span>copy_stream
+        <span class="apidocSignatureSpan">(pq, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">copy_stream = function (pq, options) {
+  Duplex.call(this, options);
+  this.pq = pq;
+  this._reading = false;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.pg-native.copy_stream.super_" id="apidoc.element.pg-native.copy_stream.super_">
+        function <span class="apidocSignatureSpan">pg-native.copy_stream.</span>super_
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function Duplex(options) {
+  if (!(this instanceof Duplex))
+    return new Duplex(options);
+
+  Readable.call(this, options);
+  Writable.call(this, options);
+
+  if (options &#x26;&#x26; options.readable === false)
+    this.readable = false;
+
+  if (options &#x26;&#x26; options.writable === false)
+    this.writable = false;
+
+  this.allowHalfOpen = true;
+  if (options &#x26;&#x26; options.allowHalfOpen === false)
+    this.allowHalfOpen = false;
+
+  this.once(&#x27;end&#x27;, onend);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.pg-native.copy_stream.prototype" id="apidoc.module.pg-native.copy_stream.prototype">module pg-native.copy_stream.prototype</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.pg-native.copy_stream.prototype._consumeBuffer" id="apidoc.element.pg-native.copy_stream.prototype._consumeBuffer">
+        function <span class="apidocSignatureSpan">pg-native.copy_stream.prototype.</span>_consumeBuffer
+        <span class="apidocSignatureSpan">(cb)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">_consumeBuffer = function (cb) {
+  var result = this.pq.getCopyData(true);
+  if(result instanceof Buffer) {
+    return setImmediate(function() {
+      cb(null, result);
+    })
+  }
+  if(result === -1) {
+    //end of stream
+    return cb(null, null);
+  }
+  if(result === 0) {
+    var self = this;
+    this.pq.once(&#x27;readable&#x27;, function() {
+      self.pq.stopReader();
+      self.pq.consumeInput();
+      self._consumeBuffer(cb);
+    });
+    return this.pq.startReader();
+  }
+  cb(new Error(&#x27;Unrecognized read status: &#x27; + result))
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    return cb(null, null);
+  }
+  if(result === 0) {
+    var self = this;
+    this.pq.once(&#x27;readable&#x27;, function() {
+      self.pq.stopReader();
+      self.pq.consumeInput();
+      self.<span class="apidocCodeKeywordSpan">_consumeBuffer</span>(cb);
+    });
+    return this.pq.startReader();
+  }
+  cb(new Error(&#x27;Unrecognized read status: &#x27; + result))
+};
+
+CopyStream.prototype._read = function(size) {
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.pg-native.copy_stream.prototype._read" id="apidoc.element.pg-native.copy_stream.prototype._read">
+        function <span class="apidocSignatureSpan">pg-native.copy_stream.prototype.</span>_read
+        <span class="apidocSignatureSpan">(size)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">_read = function (size) {
+  if(this._reading) return;
+  this._reading = true;
+  //console.log(&#x27;read begin&#x27;);
+  var self = this
+  this._consumeBuffer(function(err, buffer) {
+    self._reading = false;
+    if(err) {
+      return self.emit(&#x27;error&#x27;, err)
+    }
+    if(buffer === false) {
+      //nothing to read for now, return
+      return;
+    }
+    self.push(buffer);
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.pg-native.copy_stream.prototype._write" id="apidoc.element.pg-native.copy_stream.prototype._write">
+        function <span class="apidocSignatureSpan">pg-native.copy_stream.prototype.</span>_write
+        <span class="apidocSignatureSpan">(chunk, encoding, cb)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">_write = function (chunk, encoding, cb) {
+  var result = this.pq.putCopyData(chunk);
+
+  //sent successfully
+  if(result === 1) return cb();
+
+  //error
+  if(result === -1) return cb(new Error(this.pq.errorMessage()));
+
+  //command would block. wait for writable and call again.
+  var self = this;
+  this.pq.writable(function() {
+    self._write(chunk, encoding, cb);
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+//error
+if(result === -1) return cb(new Error(this.pq.errorMessage()));
+
+//command would block. wait for writable and call again.
+var self = this;
+this.pq.writable(function() {
+  self.<span class="apidocCodeKeywordSpan">_write</span>(chunk, encoding, cb);
+});
+};
+
+CopyStream.prototype.end = function() {
+var args = Array.prototype.slice.call(arguments, 0);
+var self = this;
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.pg-native.copy_stream.prototype.end" id="apidoc.element.pg-native.copy_stream.prototype.end">
+        function <span class="apidocSignatureSpan">pg-native.copy_stream.prototype.</span>end
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">end = function () {
+  var args = Array.prototype.slice.call(arguments, 0);
+  var self = this;
+
+  var callback = args.pop();
+
+  if(args.length) {
+    this.write(args[0]);
+  }
+  var result = this.pq.putCopyEnd();
+
+  //sent successfully
+  if(result === 1) {
+    //consume our results and then call &#x27;end&#x27; on the
+    //&#x22;parent&#x22; writable class so we can emit &#x27;finish&#x27; and
+    //all that jazz
+    return consumeResults(this.pq, function(err, res) {
+      Writable.prototype.end.call(self);
+
+      //handle possible passing of callback to end method
+      if(callback) {
+        callback();
+      }
+    });
+  }
+
+  //error
+  if(result === -1) {
+    var err = new Error(this.pq.errorMessage());
+    return this.emit(&#x27;error&#x27;, err);
+  }
+
+  //command would block. wait for writable and call end again
+  //don&#x27;t pass any buffers to end on the second call because
+  //we already sent them to possible this.write the first time
+  //we called end
+  return this.pq.writable(function() {
+    return self.end.apply(self, callback);
+  });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+        //execute the prepared, named statement again
+        client.execute(&#x27;get_twitter&#x27;, [&#x27;@realcarrotfacts&#x27;], function(err, rows) {
+          if(err) throw err
+
+          console.log(rows[0].twitter_handle) //@realcarrotfacts
+
+          client.<span class="apidocCodeKeywordSpan">end</span>(function() {
+            console.log(&#x27;ended&#x27;)
+          })
+        })
+      })
+    })
+  })
+})
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
